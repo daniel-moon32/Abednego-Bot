@@ -20,7 +20,7 @@ console.log(process.env.DISCORD_TOKEN)
 
 client.on('voiceStateUpdate', (oldState, newState) => {
 	// console.log(newState)
-	if (newState.member.id === process.env.USER_ID && oldState.channelId === null) {
+	if ((newState.member.id === process.env.USER_ID1 || newState.member.id === process.env.USER_ID2) && oldState.channelId === null) {
 		console.log(__dirname)
 		const happy_birthday = createAudioResource(join(__dirname, 'happy_birthday.mp3'));
 		console.log('User joined voice')
@@ -40,7 +40,13 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 			if (subscription) {
 				setTimeout(() => subscription.unsubscribe(), 5_000);
 			}
-			setTimeout(() => connection.destroy(), 5_000);
+			setTimeout(() => {
+				try {
+					connection.destroy();
+				} catch (error) {
+					console.log(error)
+				}
+			}, 5_000);
 		}, 5_000);
 	}
 });
